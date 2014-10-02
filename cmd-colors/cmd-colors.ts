@@ -58,11 +58,6 @@ class CmdColors {
 
 }
 
-CmdColors.prototype.toString = function () {
-    return this.txtValue;
-};
-
-
 
 module.exports = function() {
     return new CmdColors();
