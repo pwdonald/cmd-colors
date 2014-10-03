@@ -16,44 +16,42 @@ class CmdColors {
 
         for (var i = 0; i < enumKeys.length; i++) {
             var enumName: string = enumKeys[i],
-                color = BaseColorsEnum[enumName],
-                that = this;
+                color = BaseColorsEnum[enumName];
 
             var base = this[enumName] = (c: number, value?: any) => {
-                if (that.v) {
-                    if (that.v.indexOf('%value%') && value) {
-                        that.v = that.v.replace(/%value%/g, value.cmdForegroundStyle(c, Intensity.normal, []));
+                if (this.v) {
+                    if (this.v.indexOf('%value%') && value) {
+                        this.v = this.v.replace(/%value%/g, value.cmdForegroundStyle(c, Intensity.normal, []));
                     } else {
-                        that.v = (<string>that.v).cmdForegroundStyle(c, Intensity.normal, []);
+                        this.v = (<string>this.v).cmdForegroundStyle(c, Intensity.normal, []);
                     }
                 } else if (value) {
-                    that.v = (value.v ? value.v.cmdForegroundStyle(c, Intensity.normal, [])
+                    this.v = (value.v ? value.v.cmdForegroundStyle(c, Intensity.normal, [])
                     : value.cmdForegroundStyle(c, Intensity.normal, []));
                 } else {
-                    that.v = '%value%'.cmdForegroundStyle(c, Intensity.normal, []);
+                    this.v = '%value%'.cmdForegroundStyle(c, Intensity.normal, []);
                 }
-                return that;
+                return this;
             };
 
             
-            this[enumName + 'Func'] = base.bind(this, color);
-            this[enumName] = (<Function>this[enumName]).call(this[enumName], arguments[0] || null);
+            this[enumName] = base.bind(this, color);
 
-            //// build bright colors 
+            // build bright colors 
             var bright = this[enumName + 'Bright'] = (c: number, value?: any) => {
-                if (that.v) {
-                    if (that.v.indexOf('%value%') && value) {
-                        that.v = that.v.replace(/%value%/g, value.cmdForegroundStyle(c, Intensity.high, []));
+                if (this.v) {
+                    if (this.v.indexOf('%value%') && value) {
+                        this.v = this.v.replace(/%value%/g, value.cmdForegroundStyle(c, Intensity.high, []));
                     } else {
-                        that.v = (<string>that.v).cmdForegroundStyle(c, Intensity.high, []);
+                        this.v = (<string>this.v).cmdForegroundStyle(c, Intensity.high, []);
                     }
                     return this;
                 }
                 if (value) {
-                    that.v = (value.v ? value.v.cmdForegroundStyle(c, Intensity.high, [])
+                    this.v = (value.v ? value.v.cmdForegroundStyle(c, Intensity.high, [])
                     : value.cmdForegroundStyle(c, Intensity.normal, []));
                 }
-                return that;
+                return this;
             };
 
             
@@ -100,7 +98,7 @@ class CmdColors {
     }
 
     toString = function () {
-        return this.v;
+        return this.v.replace('%value%', '');
     };
 
 }
