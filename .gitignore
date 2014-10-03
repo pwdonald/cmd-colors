@@ -160,3 +160,4 @@ $RECYCLE.BIN/
 !Gruntfile.js
 !colorstest.js
 node_modules/
+typings/
