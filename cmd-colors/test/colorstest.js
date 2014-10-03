@@ -1,5 +1,4 @@
 ﻿var colors = require('../cmd-colors'),
-    red = colors.red,
-    bg = colors.whiteBg;
+    red = colors.red.whiteBg;
 
-process.stdout.write(red('Testing..').whiteBg().toString());
+process.stdout.write(red('Testing..').toString());
