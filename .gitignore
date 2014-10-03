@@ -161,3 +161,4 @@ $RECYCLE.BIN/
 !colorstest.js
 node_modules/
 typings/
+output.txt
