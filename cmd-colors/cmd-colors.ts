@@ -1,14 +1,14 @@
 ﻿/// <reference path="_references.ts" />
 require('./terminalcolors/terminalcolors');
 
-var BaseColorsEnum = require('./terminalcolors/enums/basecolor.enum');
+var BaseColors = require('./terminalcolors/enums/basecolor.enum');
 
 class CmdColors {
     v = '';
     constructor() {
         var enumKeys = [];
         this.v = '';
-        Object.keys(BaseColorsEnum).forEach((v) => {
+        Object.keys(BaseColors).forEach((v) => {
             if (isNaN(parseInt(v, 10))) {
                 enumKeys.push(v);
             }
@@ -16,7 +16,7 @@ class CmdColors {
 
         for (var i = 0; i < enumKeys.length; i++) {
             var enumName: string = enumKeys[i],
-                color = BaseColorsEnum[enumName];
+                color = BaseColors[enumName];
 
             var base = this[enumName] = (c: number, value?: any) => {
                 if (this.v) {
