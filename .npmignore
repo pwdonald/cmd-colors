@@ -158,6 +158,11 @@ $RECYCLE.BIN/
 *.ts
 *.js.map
 terminalcolors/enums
+!terminalcolors/enums/basecolor.enum.js
 terminalcolors/interfaces
 Gruntfile.js
 test/
+.gitignore
+tsd.json
+typings/
+_references.js

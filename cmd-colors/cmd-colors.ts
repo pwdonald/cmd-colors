@@ -12,7 +12,7 @@ class CmdColors {
 
     constructor() {
         var enumKeys = [];
-        this.v = null;
+
         Object.keys(BaseColorsEnum).forEach((v) => {
             if (isNaN(parseInt(v, 10))) {
                 enumKeys.push(v);
@@ -23,6 +23,7 @@ class CmdColors {
             var c = BaseColorsEnum[enumName],
                 strV: string = '';
 
+            // build methods for base text colors
             this[enumName] = (value?: any) => {
                 if (value && value.v) {
                     strV = value.v;
@@ -47,6 +48,7 @@ class CmdColors {
                 }
             };
 
+            // build methods for 'bright' base colors
             this[enumName + 'Bright'] = (value?: any) => {
                 if (value && value.v) {
                     strV = value.v;
@@ -71,6 +73,7 @@ class CmdColors {
                 }
             };
 
+            // build methods for base background colors
             this[enumName + 'Bg'] = (value?: any) => {
                 if (value && this.v) {
                     if (this.v.indexOf('%value%') > -1 && value) {
@@ -86,6 +89,7 @@ class CmdColors {
                
             };
 
+            // build methods for 'bright' background colors.
             this[enumName + 'BgBright'] = (value?: any) => {
                 if (value && this.v) {
                     if (this.v.indexOf('%value%') > -1 && value) {
@@ -105,7 +109,7 @@ class CmdColors {
     }
 
     toString = function () {
-        var toRtn = this.v.replace('%value%', '');;
+        var toRtn = this.v.replace('%value%', '');
         this.reset();
         return toRtn;
     };
