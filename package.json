@@ -3,7 +3,7 @@
     "description": "Windows compatible cmd colors.",
     "author": "Donald Jones <donaldrj@uab.edu>",
     "version":  "0.1.0",
-    "main": "cmd-colors.js",
+    "main": "./cmd-colors/cmd-colors.js",
     "scripts":  {
         "prepublish": "./node_modules/.bin/grunt"
     },
