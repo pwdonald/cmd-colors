@@ -158,7 +158,7 @@ $RECYCLE.BIN/
 *.ts
 *.js.map
 cmd-colors/terminalcolors/enums
-!terminalcolors/enums/basecolor.enum.js
+!cmd-colors/terminalcolors/enums/basecolor.enum.js
 cmd-colors/terminalcolors/interfaces
 Gruntfile.js
 cmd-colors/test/
