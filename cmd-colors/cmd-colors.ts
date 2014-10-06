@@ -9,6 +9,7 @@ class CmdColors {
     reset() {
         this.v = '';
     }
+
     constructor() {
         var enumKeys = [];
         this.v = null;
@@ -47,19 +48,27 @@ class CmdColors {
             };
 
             this[enumName + 'Bright'] = (value?: any) => {
-                if (this.v) {
-                    if (this.v.indexOf('%value%') && value) {
-                        this.v = this.v.replace(/%value%/g, value.cmdForegroundStyle(c, Intensity.high, []));
-                    } else {
-                        this.v = (<string>this.v).cmdForegroundStyle(c, Intensity.high, []);
+                if (value && value.v) {
+                    strV = value.v;
+
+                    if (strV.length > 0) {
+                        this.v = strV.cmdForegroundStyle(c, Intensity.high, []);
                     }
+
+                    return this;
+                } else if (value) {
+                    strV = value;
+
+                    if (strV.length > 0) {
+                        this.v = strV.cmdForegroundStyle(c, Intensity.high, []);
+                    }
+
+                    return this;
+                } else {
+                    this.v = '%value%'.cmdForegroundStyle(c, Intensity.high, []);
+
                     return this;
                 }
-                if (value) {
-                    this.v = (value.v ? value.v.cmdForegroundStyle(c, Intensity.high, [])
-                    : value.cmdForegroundStyle(c, Intensity.normal, []));
-                }
-                return this;
             };
 
             this[enumName + 'Bg'] = (value?: any) => {
@@ -78,19 +87,18 @@ class CmdColors {
             };
 
             this[enumName + 'BgBright'] = (value?: any) => {
-                if (this.v) {
+                if (value && this.v) {
                     if (this.v.indexOf('%value%') > -1 && value) {
                         this.v = this.v.replace(/%value%/g, (<string>value).cmdBackgroundStyle(c, Intensity.high));
                     } else {
-                        this.v = (<string>this.v).cmdBackgroundStyle(c, Intensity.high);
+                        this.v = (<string>value.v).cmdBackgroundStyle(c, Intensity.high);
                     }
-                    return this;
+                } else if (value) {
+                    this.v = (<string>value).cmdBackgroundStyle(c, Intensity.high);
                 }
-                if (value) {
-                    this.v = (value.v ? (<string>value.v).cmdBackgroundStyle(c, Intensity.normal)
-                    : (<string>value).cmdBackgroundStyle(c, Intensity.normal));
-                }
+
                 return this;
+               
             };
 
         });
@@ -102,11 +110,6 @@ class CmdColors {
         return toRtn;
     };
 }
-
-
-//module.exports = function() {
-//    return new CmdColors();
-//}();
 
 export = CmdColors;
 
