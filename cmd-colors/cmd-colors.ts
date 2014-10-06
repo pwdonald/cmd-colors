@@ -1,44 +1,52 @@
 ﻿/// <reference path="_references.ts" />
 require('./terminalcolors/terminalcolors');
 
-var BaseColors = require('./terminalcolors/enums/basecolor.enum');
+var BaseColorsEnum = require('./terminalcolors/enums/basecolor.enum');
 
 class CmdColors {
     v = '';
+
+    reset() {
+        this.v = '';
+    }
     constructor() {
         var enumKeys = [];
-        this.v = '';
-        Object.keys(BaseColors).forEach((v) => {
+        this.v = null;
+        Object.keys(BaseColorsEnum).forEach((v) => {
             if (isNaN(parseInt(v, 10))) {
                 enumKeys.push(v);
             }
         });
 
-        for (var i = 0; i < enumKeys.length; i++) {
-            var enumName: string = enumKeys[i],
-                color = BaseColors[enumName];
+        enumKeys.forEach((enumName) => {
+            var c = BaseColorsEnum[enumName],
+                strV: string = '';
 
-            var base = this[enumName] = (c: number, value?: any) => {
-                if (this.v) {
-                    if (this.v.indexOf('%value%') && value) {
-                        this.v = this.v.replace(/%value%/g, value.cmdForegroundStyle(c, Intensity.normal, []));
-                    } else {
-                        this.v = (<string>this.v).cmdForegroundStyle(c, Intensity.normal, []);
+            this[enumName] = (value?: any) => {
+                if (value && value.v) {
+                    strV = value.v;
+
+                    if (strV.length > 0) {
+                        this.v = strV.cmdForegroundStyle(c, Intensity.normal, []);
                     }
+
+                    return this;
                 } else if (value) {
-                    this.v = (value.v ? value.v.cmdForegroundStyle(c, Intensity.normal, [])
-                    : value.cmdForegroundStyle(c, Intensity.normal, []));
+                    strV = value;
+
+                    if (strV.length > 0) {
+                        this.v = strV.cmdForegroundStyle(c, Intensity.normal, []);
+                    }
+
+                    return this;
                 } else {
                     this.v = '%value%'.cmdForegroundStyle(c, Intensity.normal, []);
+
+                    return this;
                 }
-                return this;
             };
 
-            
-            this[enumName] = base.bind(this, color);
-
-            // build bright colors 
-            var bright = this[enumName + 'Bright'] = (c: number, value?: any) => {
+            this[enumName + 'Bright'] = (value?: any) => {
                 if (this.v) {
                     if (this.v.indexOf('%value%') && value) {
                         this.v = this.v.replace(/%value%/g, value.cmdForegroundStyle(c, Intensity.high, []));
@@ -54,30 +62,22 @@ class CmdColors {
                 return this;
             };
 
-            
-            this[enumName + 'Bright'] = bright.bind(this, color);
-
-            // build background colors
-            var bg = this[enumName + 'Bg'] = (c: number, value?: any) => {
-                if (this.v) {
+            this[enumName + 'Bg'] = (value?: any) => {
+                if (value && this.v) {
                     if (this.v.indexOf('%value%') > -1 && value) {
                         this.v = this.v.replace(/%value%/g, (<string>value).cmdBackgroundStyle(c, Intensity.normal));
                     } else {
-                        this.v = (<string>this.v).cmdBackgroundStyle(c, Intensity.normal);
+                        this.v = (<string>value.v).cmdBackgroundStyle(c, Intensity.normal);
                     }
-                    return this;
+                } else if (value) {
+                    this.v = (<string>value).cmdBackgroundStyle(c, Intensity.normal);
                 }
-                if (value) {
-                    this.v = (value.v ? (<string>value.v).cmdBackgroundStyle(c, Intensity.normal)
-                    : (<string>value).cmdBackgroundStyle(c, Intensity.normal));
-                }
+
                 return this;
+               
             };
 
-            this[enumName + 'Bg'] = bg.bind(this, color);
-
-            //// build bright background colors
-            var bgBright = this[enumName + 'BgBright'] = (c: number, value?: any) => {
+            this[enumName + 'BgBright'] = (value?: any) => {
                 if (this.v) {
                     if (this.v.indexOf('%value%') > -1 && value) {
                         this.v = this.v.replace(/%value%/g, (<string>value).cmdBackgroundStyle(c, Intensity.high));
@@ -93,18 +93,20 @@ class CmdColors {
                 return this;
             };
 
-            this[enumName + 'BgBright'] = bgBright.bind(this, color);
-        }
+        });
     }
 
     toString = function () {
-        return this.v.replace('%value%', '');
+        var toRtn = this.v.replace('%value%', '');;
+        this.reset();
+        return toRtn;
     };
-
 }
 
 
-module.exports = function() {
-    return new CmdColors();
-}();
+//module.exports = function() {
+//    return new CmdColors();
+//}();
+
+export = CmdColors;
 
