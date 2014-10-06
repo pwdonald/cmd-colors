@@ -163,6 +163,11 @@ terminalcolors/interfaces
 Gruntfile.js
 test/
 .gitignore
+.npmignore
 tsd.json
 typings/
 _references.js
+cmd-colors/bin/
+cmd-colors/obj/
+*.csproj
+*.sln
